@@ -39,7 +39,7 @@
           ),
           $.RunStep(
             'Publish Docker Image',
-            'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" && docker push jaredallard/%s' % name,
+            'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" --password-stdin && docker push jaredallard/%s' % name,
           )
         ],
       },
