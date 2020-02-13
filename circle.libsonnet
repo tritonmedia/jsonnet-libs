@@ -27,20 +27,27 @@
     }
   },
 
+  // BuildDockerImageStep builds a docker image
+  BuildDockerImageStep(name, Dockerfile='Dockerfile'):: {} + $.RunStep(
+    'Build "%s" Docker Image' % name,
+    'DOCKER_BUILDKIT=1 docker build -t %s -f %s .' % [name, Dockerfile],
+  ),
+
+  // PublishDockerImageStep publishes a docker image
+  PublishDockerImageStep(name):: {} + $.RunStep(
+    'Publish Docker Image',
+    'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" --password-stdin && docker push %s' % name,
+  ),
+
   // ServiceConfig create a CircleCI default configuration file
   ServiceConfig(name):: {
     version: 2,
     jobs: {
       build: $.Job() {
+        local imageName = 'jaredallard/%s' % name,
         steps_:: [
-          $.RunStep(
-            'Build Docker Image', 
-            'DOCKER_BUILDKIT=1 docker build -t jaredallard/%s -f Dockerfile .' % name,
-          ),
-          $.RunStep(
-            'Publish Docker Image',
-            'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" --password-stdin && docker push jaredallard/%s' % name,
-          )
+          $.BuildDockerImageStep(imageName),
+          $.PublishDockerImageStep(imageName)
         ],
       },
     },
