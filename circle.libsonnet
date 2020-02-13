@@ -35,7 +35,7 @@
 
   // PublishDockerImageStep publishes a docker image
   PublishDockerImageStep(name):: {} + $.RunStep(
-    'Publish Docker Image',
+    'Publish "%s" Docker Image' % name,
     'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" --password-stdin && docker push %s' % name,
   ),
 
