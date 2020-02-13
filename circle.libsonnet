@@ -2,7 +2,9 @@
   // Workflow creates a workflow
   Workflow():: {
     jobs: [
-      { [job]: { context: 'Docker' } } 
+      // we support using strings, or supplying valid workflow objects w/ a name:: prop
+      // to specify the name of it
+      { [if std.type(job) == 'object' then job.name else job ]: { context: 'Docker' } + if std.type(job) == 'object' then job else {} } 
       for job in self.jobs_
     ],
   },
