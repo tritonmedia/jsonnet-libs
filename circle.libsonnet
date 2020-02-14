@@ -46,7 +46,7 @@
   // BuildDockerImageStep builds a docker image
   BuildDockerImageStep(name, Dockerfile='Dockerfile'):: $.RunStep(
     'Build "%s" Docker Image' % name,
-    'DOCKER_BUILDKIT=1 docker build -t %s -f %s .' % [name, Dockerfile],
+    'DOCKER_BUILDKIT=1 docker build --progress=plain -t %s -f %s .' % [name, Dockerfile],
   ),
 
   // PublishDockerImageStep publishes a docker image
