@@ -28,14 +28,29 @@
     }
   },
 
+  // SaveCacheStep creates a save_cache circle step
+  SaveCacheStep(key, paths):: {
+    save_cache: {
+      key: key,
+      paths: paths,
+    },
+  },
+
+  // RestoreCacheStep creates a restore_cache step
+  RestoreCacheStep(key):: {
+    restore_cache: {
+      key: key,
+    },
+  },
+
   // BuildDockerImageStep builds a docker image
-  BuildDockerImageStep(name, Dockerfile='Dockerfile'):: {} + $.RunStep(
+  BuildDockerImageStep(name, Dockerfile='Dockerfile'):: $.RunStep(
     'Build "%s" Docker Image' % name,
     'DOCKER_BUILDKIT=1 docker build -t %s -f %s .' % [name, Dockerfile],
   ),
 
   // PublishDockerImageStep publishes a docker image
-  PublishDockerImageStep(name):: {} + $.RunStep(
+  PublishDockerImageStep(name):: $.RunStep(
     'Publish "%s" Docker Image' % name,
     'echo "$DOCKER_PASSWORD" | docker login --username "${DOCKER_USERNAME}" --password-stdin && docker push %s' % name,
   ),
