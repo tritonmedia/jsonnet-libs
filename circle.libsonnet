@@ -15,9 +15,9 @@
     docker: [
       { image: dockerImage },
     ],
-    steps: [
-      "checkout",
-    ] + if withDocker == true then [{ setup_remote_docker: { version: '18.09.3' } }] else [] + steps,
+    local staticSteps = ["checkout"],
+    steps: staticSteps + (if withDocker == true then [{ setup_remote_docker: { version: '18.09.3' } }] else [])
+    + steps,
   },
 
   // RunStep creates a { run: { name, command } } CircleCI step
