@@ -17,8 +17,7 @@
     ],
     steps: [
       "checkout",
-      if withDocker == true then { setup_remote_docker: { version: '18.09.3' } },
-    ] + steps,
+    ] + if withDocker == true then [{ setup_remote_docker: { version: '18.09.3' } }] else [] + steps,
   },
 
   // RunStep creates a { run: { name, command } } CircleCI step
