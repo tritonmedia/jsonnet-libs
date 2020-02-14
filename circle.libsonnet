@@ -60,7 +60,7 @@
     version: 2,
     jobs: {
       build: $.Job() {
-        local imageName = 'jaredallard/%s' % name,
+        local imageName = 'tritonmedia/%s' % name,
         steps_:: [
           $.BuildDockerImageStep(imageName),
           $.PublishDockerImageStep(imageName)
