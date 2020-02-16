@@ -72,8 +72,10 @@
       ['build-push']: $.Workflow() {
         jobs_:: [{
           name:: 'build',
-          branches: {
-            only: ['master'],
+          filters: {
+            branches: {
+              only: ['master'],
+            },
           },
         }],
       },
