@@ -10,7 +10,7 @@
   },
 
   // Job creates a CircleCI Job
-  Job(dockerImage = 'docker:19.03.5', withDocker=true):: {
+  Job(dockerImage = 'docker:19.03.6', withDocker=true):: {
     local steps = self.steps_,
     docker: [
       { image: dockerImage },
@@ -70,7 +70,12 @@
     workflows: {
       version: 2,
       ['build-push']: $.Workflow() {
-        jobs_:: ['build'],
+        jobs_:: [{
+          name:: 'build',
+          branches: {
+            only: ['master'],
+          },
+        }],
       },
     },
   },
