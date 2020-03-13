@@ -10,7 +10,7 @@
   },
 
   // Job creates a CircleCI Job
-  Job(dockerImage = 'docker:19.03.6', withDocker=true):: {
+  Job(dockerImage = 'docker:19.03.8', withDocker=true):: {
     local steps = self.steps_,
     docker: [
       { image: dockerImage },
